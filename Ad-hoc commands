@@ -1,0 +1,14 @@
+# Playbook - это файл в формате .yaml содержащий в себе task-и
+ansible hosts -m module [-a 'module arguments'] [-i inventory]   #структура ad-hoc команды
+ansible all -m user -a "name=lisa"   #модуль user позволяет создать юзера lisa
+ansible all -m user -a 'name=lisa state=absent'   #удалить юзера lisa
+ansible all -m command -a "id lisa"   #модуль command позволяет запустить любую linux-команду на хосте, проверяем что юзер создался
+ansible all -m ping   #пинговать хосты
+ansible all -m service -a "name=httpd state=started"   #модуль service проверяет состояние сервиса
+ansible all -m command -a "/sbin/reboot -t now"   #ребут через модуль command
+ansible all -m shell -a set   #покажет переменные окружения хостов, модуль shell удобен когда необходимо использовать environment variables
+# модуль raw позволяет запускать команды на хостах без помощи python
+ansible all -m copy -a 'content="hello world" dest=/etc/motd'   #записать строку "hello world" в файл
+ansible all -m shell -a 'cat /etc/motd'   #просмотреть содержимое файла
+ansible -u root -i inventory ansible-node3 --ask-pass -m raw -a 'dnf install python3 -y'   #u=user, если на хосте нет питона3, можно установить модулем raw
+# для этого нужен установленный sshpass

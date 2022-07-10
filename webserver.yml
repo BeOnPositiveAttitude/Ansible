@@ -1,0 +1,34 @@
+---
+- name: enable webserver   #имя первого play
+  hosts: ansible-node2
+  tasks:
+    - name: install httpd   #имя первой таски
+      dnf:   #можно использовать модуль package, универсальный для множества систем, но лучше брать для определенной системы
+        name: httpd
+        state: latest
+    - name: install welcome page
+      copy:
+        content: "hello world"
+        dest: /var/www/html/index.html
+    - name: start web services
+      service:
+        name: httpd
+        enabled: true
+        state: started
+    - name: open firewalld port
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
+
+- name: test webserver access   #имя второго play
+  hosts: localhost   #запускаем на мастере
+  become: no
+  tasks:
+    - name: connect to the webserver
+      uri:
+         url: http://ansible-node2
+         return_content: yes
+         status_code: 200
+...

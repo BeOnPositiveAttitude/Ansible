@@ -1,0 +1,14 @@
+useradd ansible   #на всех нодах создать юзера
+echo "password" | passwd --stdin ansible
+echo "ansible ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ansible
+# в /etc/hosts на мастере вносим записи о наших управляемых нодах
+scp /etc/sudoers.d/ansible ansible-node1:/etc/sudoers.d/   #копируем из под рута
+scp /etc/sudoers.d/ansible ansible-node2:/etc/sudoers.d/   #копируем из под рута
+su - ansible; ssh-keygen   #на управляющей ноде
+ssh-copy-id ansible-node1; ssh-copy-id ansible-node2
+su -
+yum install python3   #на управляющей ноде
+yum -y install python3-pip   #на управляющей ноде
+alternatives --set python /usr/bin/python3   #чтобы все команды исполнялись третьей версией питона
+su - ansible; pip3 install ansible --user   #ставим ансибл
+ansible --version   #проверяем корректность установки

@@ -1,0 +1,18 @@
+---
+- name: remove webserver
+  hosts: ansible-node2
+  tasks:
+    - name: close firewalld port
+       firewalld:
+          service: http
+          permanent: yes
+          state: disabled
+    - name: remove web-page
+      file:
+        path: /var/www/html/index.html
+        state: absent
+    - name: remove httpd-package
+      package:
+        name: httpd
+        state: absent
+...

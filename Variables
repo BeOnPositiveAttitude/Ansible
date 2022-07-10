@@ -1,0 +1,84 @@
+{{ web_server }}   #так мы обращаемся к переменной в ансибл
+# есть несколько вариантов размещения переменных:
+- playbook
+- inventory (deprecated)
+- include
+# отдельный класс переменных - local fact
+# имя переменной должно начинаться с буквы
+# имя переменной может содержать буквы, цифры и нижнее подчеркивание
+# если переменная является первым элементом, то нужно обязательно использовать ковычки "{{ web_server }}"
+
+---
+- name: create a user using a variable
+  hosts: all
+  vars:
+    user: lisa
+  tasks:
+    - name: create a user {{ user }}
+      user:
+        name: "{{ user }}"
+...
+
+# переменные могут быть заданы на разных уровнях (скоупах):
+- global scope   #переменная задана через инвентарь или через cli
+- play scope   #переменная действует на уровне play
+- host scope   #переменная задана через инвентарь или через inclusion-файл
+# когда переменная задается из командной строки, она имеет наивысший приоритет
+ansible-playbook site.yml -e "web_package=apache"   #задается через параметр "e"
+
+# существуют встроенные переменные, которые не могут быть использованы для чего-то еще
+- hostvars
+- inventory_hostname
+- inventory_hostname_short
+- groups
+- group_names
+- ansible_check_mode
+- ansible_play_batch
+- ansible_play_hosts
+- ansible_version
+
+# host variables могут быть назначены для хостов или для групп хостов
+# старый способ - сделать это через инвентарь, но сейчас это deprecated, т.к. получается микс двух типов данных в одном файле
+# сейчас нужно использовать директории для назначения host и group variables
+
+[servers]
+web1.example.com   web_package=httpd   #вариант задания через инвентарь
+
+[servers:vars]
+web_package=httpd   #вариант через группы хостов
+
+# для задания host и group variables необходимо создать директории в папке с проектом
+~/myproject/host_vars/web1.example.com   #для задания конкретному хосту
+~/myproject/group_vars/webservers   #для задания группе хостов
+# нет необходимости указывать эти папки в плейбуке, они подхватываются автоматически
+
+# переменные могут содержать несколько значений
+# задаются такие переменные в виде массива
+# обратиться к конкретному значению в массиве можно через точку
+
+# содержимое arrays/arrays-simple.yml
+---
+- name: show arrays
+  hosts: ansible-node1
+  vars_files:
+    - vars/users
+  tasks:
+    - name: print array values
+      debug:
+        msg: "User {{ users.linda.username }} has homedirectory {{ users.linda.homedir }} and shell {{ users.linda.shell }}"
+...
+
+# содержимое arrays/vars/users
+users:
+  linda:
+    username: linda
+    homedir: /home/linda
+    shell: /bin/bash
+  lisa:
+    username: lisa
+    homedir: /home/lisa
+    shell: /bin/bash
+  anna:
+    username: anna
+    homedir: /home/anna
+    shell: /bin/bash
