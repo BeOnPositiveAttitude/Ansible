@@ -6,5 +6,5 @@
   tasks:
     - name: creating user
       user:
-        - name: "{{ username }}"
-        - password: "{{ pwhash }}"
+        name: "{{ username }}"
+        password: "{{ pwhash }}"
