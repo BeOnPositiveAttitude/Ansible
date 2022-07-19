@@ -1,6 +1,6 @@
 ansible-vault create palybook.yml   #создать новый плейбук с шифрованием
 # команда запросит ввод пароля и далее откроется редактор vi для редактирования файла
-ansible-vault create --vault-password-file=vault-pass palybook.yml   #зашифровать плейбук с помощью файла с паролем
+ansible-vault create --vault-password-file=vault-pass palybook.yml   #зашифровать плейбук с помощью файла с паролем, выставить права 600 на этот файл
 ansible-vault view palybook.yml   #просмотреть зашифрованный плейбук
 ansible-vault edit palybook.yml   #редактировать зашифрованный плейбук
 ansible-vault encrypt palybook.yml   #зашифровать существующий плейбук
