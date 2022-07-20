@@ -1,0 +1,2 @@
+ansible-galaxy install -r requirements.yml   #установить список ролей из файла
+ansible-galaxy remove role_name   #удалить роль по имени, для последующего обновления например
