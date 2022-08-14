@@ -1,0 +1,5 @@
+# Custom facts позволяют администраторам динамически генерировать переменные которые хранятся как facts
+# Custom facts хранятся в виде .ini или .json файлов в каталоге /etc/ansible/facts.d/ на управляемых хостах, имя файлов должно заканчиваться на .fact
+# Custom facts хранятся в переменной ansible_facts.ansible_local
+ansible hostname -m setup -a 'filter=ansible_local'   #покажет local facts
+# обратите внимание как имя файла и label используются в facts
