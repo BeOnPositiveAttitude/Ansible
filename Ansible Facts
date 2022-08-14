@@ -5,3 +5,15 @@
 # чтобы отобразить значение переменной  ansible_facts нужно использовать модуль debug
 # facts отображаются в иерархической структуре, можно обращаться к подфактам через точку
 ansible all -m setup   #сбор фактов ad-hoc командой
+
+# в ansible версии 2.4 и ранее facts хранились как отдельные переменные, например ansible_hostname и ansible_interfaces
+# в ansible версии 2.5 и позже facts хранятся в одной переменной ansible_facts, и обращение к конкретным facts происходит другим способом,
+# ansible_facts['hostname'] и ansible_facts['interfaces']
+# старый подход упоминается как "injecting facts as variables" и может управляться с помощью параметра inject_facts_as_vars
+# параметр inject_facts_as_vars=true может быть указан в файле ansible.cfg в секции [defaults] для включения старого подхода к ansible facts
+# отключение fact gathering может существенно ускорить выполнение плейбука
+gather_facts: no   #для отключения сбора facts
+# даже если сбор facts отключен, его легко можно включить в конкретной task с помощью модуля setup
+
+ansible all -m setup -a 'filter=ansible_default_ipv4'   #показать блок facts относящихся к ipv4
+ansible all -m setup -a 'filter=ansible_default_ipv4.address'   #если мы обратимся к конкретному свойству address, то оно НЕ будет показано в выводе 
