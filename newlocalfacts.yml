@@ -1,6 +1,6 @@
 ---
 - name: install custom facts
-  hosts: lamp
+  hosts: node1.example.com
   vars:
     remote_dir: /etc/ansible/facts.d/
     facts_file: localfacts.fact
