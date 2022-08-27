@@ -1,4 +1,4 @@
 [localfacts]
 package = samba
-service = smbd
+service = smb
 state = enabled
