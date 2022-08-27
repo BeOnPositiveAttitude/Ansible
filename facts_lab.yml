@@ -16,9 +16,10 @@
         dest: "{{ remote_dir }}"
     - name: Install samba
       dnf:
-        name: samba
+        name: "{{ ansible_local.localfacts.localfacts.package }}"
         state: latest
     - name: Enable smb.service
       service:
-        name: smb
+        name: "{{ ansible_local.localfacts.localfacts.service }}"
         enabled: yes
+        state: started
