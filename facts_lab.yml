@@ -1,0 +1,24 @@
+---
+- name: Copy localfacts and install samba
+  hosts: slaves
+  vars:
+    remote_dir: /etc/ansible/facts.d/
+    facts_file: localfacts.fact
+  tasks:
+    - name: Create facts.d directory
+      file:
+        state: directory
+        recurse: yes
+        path: "{{ remote_dir }}"
+    - name: Copy facts file
+      copy:
+        src: "{{ facts_file }}"
+        dest: "{{ remote_dir }}"
+    - name: Install samba
+      dnf:
+        name: samba
+        state: latest
+    - name: Enable smbd service
+      service:
+        name: smbd
+        enabled: yes
