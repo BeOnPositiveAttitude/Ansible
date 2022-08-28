@@ -1,0 +1,46 @@
+# ключевое слово loop используется для манипулирования содержимым простых списков
+# до ansible версии 2.5 вместо этого использовалось ключевое слово items
+
+- name: start some services
+  service:
+    name: "{{ item }}"
+    state: started
+  loop:
+    - vsftpd
+    - httpd
+
+# список может быть представлен в виде переменной
+vars:
+  my_services:
+    - httpd
+    - vsftpd
+tasks:
+  - name: start some services
+    service:
+      name: "{{ item }}"
+      state: started
+    loop: "{{ my_services }}"
+
+# каждый item в loop может являться также hash/dictionary с множеством ключей в каждом hash/dictionary
+- name: create users using loop
+  hosts: all
+  tasks:
+    - name: create users
+      user:
+        name: "{{ item.name }}"
+        state: present
+        groups: "{{ item.groups }}"
+      loop:
+        - name: anna
+          groups: wheel
+        - name: linda
+          groups: users
+          
+# ключевое слово loop является актуальным
+# в предыдущих версиях ansible использовалось ключевое слово with_* для этих же целей
+# старый синтаксис будет deprecated в следующих версиях ansible:
+- with_items: эквивалент ключевому слову loop
+- with_file: item содержит файл, содержимое которого используется в loop
+- with_sequence: генерирует список числовых значений
+
+

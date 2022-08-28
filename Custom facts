@@ -3,3 +3,8 @@
 # Custom facts хранятся в переменной ansible_facts.ansible_local
 ansible hostname -m setup -a 'filter=ansible_local'   #покажет local facts
 # обратите внимание как имя файла и label используются в facts
+
+[localfacts]
+package = vsftpd
+service = vsftpd
+state = started
