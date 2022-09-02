@@ -1,0 +1,19 @@
+# ключевое слово when используется для запуска task при выполнении определенных условий
+# условие может быть использовано для запуска task только если определенные условия верны
+# playbook variables, registered variables, facts могут быть использованы в условиях
+# например в качестве условия может быть успешное выполнение taks, доступное количество RAM, наличие файла и т.д.
+# простейший пример условия, проверить Boolean переменную на true или false
+# можно также проверить и non-Boolean переменную на наличие значения и использовать это значение в условии
+# или можно использовать условие в котором сравнивается значение fact со значением какой-либо переменной
+# Примеры:
+ansible_machine == "x86_64"
+ansible_distribution_major_version == "8"   #здесь номер версии в формате строки
+ansible_memfree_mb == 1024
+ansible_memfree_mb < 256
+ansible_memfree_mb > 256
+ansible_memfree_mb <= 256
+ansible_memfree_mb != 512
+my_variable is defined   #переменная существует
+my_variable is not defined
+my_variable   #тоже самое что is defined, более короткая запись
+ansible_distribution in supported_distros   #проверить что первая переменная содержится в значениях второй переменной
