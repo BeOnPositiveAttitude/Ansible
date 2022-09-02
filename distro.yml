@@ -1,0 +1,18 @@
+---
+- name: when demo
+  hosts: all
+  vars:
+    supported_distros:
+      - RedHat
+      - CentOS
+      - Fedora
+  tasks:
+    - name: install RH family specific packages
+      dnf:
+        name: httpd
+        state: present
+      when: ansible_distribution in supported_distros
+    - name: show fact
+      debug:
+        var: ansible_distribution
+      tags: debug
