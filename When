@@ -17,3 +17,9 @@ my_variable is defined   #переменная существует
 my_variable is not defined
 my_variable   #тоже самое что is defined, более короткая запись
 ansible_distribution in supported_distros   #проверить что первая переменная содержится в значениях второй переменной
+# when может использоваться для тестирование нескольких условий
+# используйте and или or, а также группировку условий с помощью круглых скобок
+when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+when: ansible_machine == "x86_64" and ansible_distribution == "CentOS"
+# ключевое слово when также поддерживает использование list, в этом случае все условия должны быть true
+# сложные выражения с условиями могут быть сгруппированы с помощью круглых скобок
