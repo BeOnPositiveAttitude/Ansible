@@ -1,0 +1,30 @@
+---
+- name: database server is running
+  hosts: node2.example.com
+#  gather_facts: no
+  vars:
+    db_packages:
+      - mariadb-server
+      - python3-PyMySQL
+  tasks:
+    - name: install mariadb
+      dnf:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ db_packages }}"
+      when: ( ansible_distribution == "RedHat" or ansible_distribution == "CentOS" ) and ansible_distribution_major_version == "9"
+      tags: install
+
+    - name: start the db service
+      service:
+        name: mariadb
+        state: started
+        enabled: true
+      notify:
+        - set db root password
+
+  handlers:      
+    - name: set db root password
+      mysql_user:
+        name: root
+        password: 1235
