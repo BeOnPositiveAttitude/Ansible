@@ -13,5 +13,3 @@ ansible-vault rekey   #изменить пароль для существующ
 |  | --db_servers
 |    |- vars
 |    |- vault
-
-    
