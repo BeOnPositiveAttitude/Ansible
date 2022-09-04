@@ -7,7 +7,7 @@
       state: installed
     when:
       - ansible_distribution == "CentOS"
-      - ansible_memfree_mb > 100
+      - ansible_memfree_mb > 500
   - debug:
       var: ansible_memfree_mb
     tags: debug
