@@ -6,6 +6,8 @@
     command: date
     register: command_result
 # This will never report 'changed' status
+# Команда date без конструкции ниже всегда будет отдавать статус 'changed' хотя на самом деле ничего не меняет
+# Поэтому мы добавляем changed_when: False
     changed_when: false
 
   - name: print local time
