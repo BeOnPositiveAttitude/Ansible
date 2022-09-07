@@ -1,0 +1,47 @@
+---
+- name: deploy vsftpd
+  hosts: node2.example.com
+  tasks:
+  - name: install vsftpd
+    dnf:
+      name: vsftpd
+      state: installed
+  - name: start and enable vsftpd service
+    service:
+      name: vsftpd
+      state: started
+      enabled: yes
+  - name: open port in firewall
+    firewalld:
+      service: ftp
+      permanent: yes
+      state: enabled
+
+- name: configure vsftpd using a template
+  hosts: node2.example.com
+  vars:
+    anonymous_enable: yes
+    local_enable: yes
+    write_enable: yes
+    anon_upload_enable: yes
+  tasks:     
+  - name: use template to copy FTP config
+    template:
+      src: vsftpd_lab.j2
+      dest: /etc/vsftpd/vsftpd.conf
+
+- name: configure vsftpd permissions and SELinux
+  hosts: node2.example.com
+  tasks:
+  - name: set permissions
+    file:
+      path: /var/ftp/pub
+      owner: ftp
+      mode: 0755
+      state: directory
+      setype: public_content_rw_t
+  - name: set ftpd_anon_write flag on and keep it persistent across reboots
+    ansible.posix.seboolean:
+      name: ftpd_anon_write
+      state: yes
+      persistent: yes
