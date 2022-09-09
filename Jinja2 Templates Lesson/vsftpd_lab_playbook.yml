@@ -15,6 +15,7 @@
     firewalld:
       service: ftp
       permanent: yes
+      immediate: yes
       state: enabled
 
 - name: configure vsftpd using a template
@@ -33,15 +34,27 @@
 - name: configure vsftpd permissions and SELinux
   hosts: node2.example.com
   tasks:
+  - name: install required SELinux tools
+    dnf:
+      name: policycoreutils-python-utils
+      state: present
   - name: set permissions
     file:
       path: /var/ftp/pub
       owner: ftp
-      mode: 0755
-      state: directory
-      setype: public_content_rw_t
-  - name: set ftpd_anon_write flag on and keep it persistent across reboots
-    ansible.posix.seboolean:
+      mode: '0777'
+  - name: set selinux boolean
+    seboolean:
       name: ftpd_anon_write
       state: yes
       persistent: yes
+  - name: manage SELinux setting
+    sefcontext:
+      target: /var/ftp/pub
+      setype: public_content_rw_t
+      state: present
+    notify:
+      - run restorecon
+  handlers:
+  - name: run restorecon
+    command: restorecon -vR /var/ftp/pub
