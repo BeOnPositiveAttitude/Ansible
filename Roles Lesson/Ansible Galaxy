@@ -4,3 +4,12 @@
 # на galaxy.ansible.com доступен легкий для использовани интерфейс поиска
 
 ansible-galaxy install geerlingguy.nginx   #установить роль из Galaxy
+
+ansible-galaxy search   #будет искать роли
+# если указан аргумент, ansible-galaxy будет искать по этому аргументу в описании роли
+# используйте опции --author, --platforms и --galaxy-tags для сужения результатов поиска
+ansible-galaxy search 'install mariadb'  --platform el   #el=RHEL
+ansible-galaxy info #предоставляет информацию о ролях
+ansible-galaxy info f500.mariadb55
+ansible-galaxy install   #загружает и устанавливает роль в ~/.ansible/roles
+# после загрузки эти роли могут быть использованы в плейбуках, также как и любые другие роли
