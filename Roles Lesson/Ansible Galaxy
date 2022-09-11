@@ -9,7 +9,29 @@ ansible-galaxy search   #будет искать роли
 # если указан аргумент, ansible-galaxy будет искать по этому аргументу в описании роли
 # используйте опции --author, --platforms и --galaxy-tags для сужения результатов поиска
 ansible-galaxy search 'install mariadb'  --platform el   #el=RHEL
-ansible-galaxy info #предоставляет информацию о ролях
+ansible-galaxy info   #предоставляет информацию о ролях
 ansible-galaxy info f500.mariadb55
 ansible-galaxy install   #загружает и устанавливает роль в ~/.ansible/roles
 # после загрузки эти роли могут быть использованы в плейбуках, также как и любые другие роли
+
+ansible-galaxy list   #показывает уже установленные роли
+ansible-galaxy remove   #может быть использована для удаления ролей
+ansible-galaxy init   #создает структуру директорий, которая может быть использована для старта разработки своей собственной роли
+# эта команда взаимодействует с API веб-сайта Ansible Galaxy
+# используйте опцию --offline для работы в оффлайне
+# укажите имя пользователя и имя роли в качестве аргументов
+# ansible-galaxy init --offline user.myrole
+
+# ansible-galaxy может быть использована для установки целого списка ролей, основанного на определениях в файле requirements
+# requirements-файл - это файл в формате yml, который определяет список требуемых ролей, который указывается используя ключевое слово src
+# ключевое слово src может содержать имя роли с веб-сайта Ansible Galaxy или URL до определенного пути указывающий вашу собственную роль
+# чтобы использовать, создайте файл roles/requirements.txt в директории с проектом
+# всегда указывайте опциональный атрибут version для избежания сюрпризов, когда новая версия роли становится доступна
+
+- src: file:///opt/local/roles/myrole.tar
+  name: myrole
+  version: 1.0
+
+# для установки ролей с помощью файла requirements, используйте команду:
+ansible-galaxy install -r roles/requirements.yml
+ansible-galaxy install -r roles/requirements.yml -p roles   #-p roles указывает куда именно установить роль
