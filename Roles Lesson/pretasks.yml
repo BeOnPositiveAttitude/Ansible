@@ -1,0 +1,9 @@
+---
+- name: run a task before a role
+  hosts: all
+  pre_tasks:
+    - name: update dnf cache
+      dnf:
+        update_cache: yes
+  roles:
+    - motd
