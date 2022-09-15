@@ -8,5 +8,5 @@
   post_tasks:
     - name: install contents from local file
       copy:
-        src: /files/html/
+        src: files/html/
         dest: "/var/www/vhosts/{{ ansible_hostname }}"

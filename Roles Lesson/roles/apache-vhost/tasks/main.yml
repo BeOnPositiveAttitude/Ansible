@@ -9,13 +9,13 @@
     name: httpd
     state: started
     enabled: yes
-- name: create a directory for Apache log files
-  file:
-    path: /var/log/httpd
-    state: directory
-    owner: apache
-    group: apache
-    mode: '0700'
+#- name: create a directory for Apache log files
+#  file:
+#    path: /var/log/httpd
+#    state: directory
+#    owner: apache
+#    group: apache
+#    mode: '0700'
 - name: copy vhost template
   template:
     src: vhost.conf.j2
