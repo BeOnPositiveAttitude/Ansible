@@ -1,0 +1,27 @@
+---
+# tasks file for apache-vhost
+- name: install Apache
+  dnf:
+    name: httpd
+    state: latest
+- name: start and enable Apache service
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+- name: create a directory for Apache log files
+  file:
+    path: /var/log/httpd
+    state: directory
+    owner: apache
+    group: apache
+    mode: '0700'
+- name: copy vhost template
+  template:
+    src: vhost.conf.j2
+    dest: /etc/httpd/conf.d/vhost.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart apache
