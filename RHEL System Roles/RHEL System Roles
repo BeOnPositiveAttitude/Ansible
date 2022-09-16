@@ -12,3 +12,10 @@
 # rhel-system-roles.firewall конфигурирует firewall
 # rhel-system-roles.tuned конфигурирует tuned service
 # дополнительные системные роли RHEL вероятно будут введены
+
+# используйте yum install rhel-system-roles для установки ролей
+# роли устанавливаются в директорию /usr/share/ansible/roles, заметьте что вышестоящее имя linux-system-roles предоставляется как символическая ссылка для обеспечения максимальной совместимости 
+# документация по системным ролям Ansible доступна в /usr/share/doc/rhel-system-roles-<version>
+# посмотрите для примера YAML файлы в директориях роли
+
+rpm -ql rhel-system-roles   #смотреть список файлов установленного пакета
