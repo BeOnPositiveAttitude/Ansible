@@ -1,0 +1,14 @@
+# системные роли RHEL обеспечивают конфигурирование стандартных RHEL операций
+# системные роли RHEL были предоставлены начиная с RHEL 7.4 и могут быть использованы для конфигурирования RHEL 6.10 и позднее
+# установите пакет rhel-system-roles для использования этих ролей
+# системные роли RHEL получены от проекта Ansible Linux System Roles, который доступен через Ansible Galaxy 
+
+# на текущий момент предоставлены следующие системные роли RHEL:
+# rhel-system-roles.kdump конфигурирует kdump crash recovery сервис
+# rhel-system-roles.network конфигурирует сетевые интерфейсы
+# rhel-system-roles.selinux управляет всеми аспектами SELinux
+# rhel-system-roles.timesync используется для установки NTP или Precision Time Protocol
+# rhel-system-roles.postfix используется для конфигурирования хоста как Postfix MTA (почта)
+# rhel-system-roles.firewall конфигурирует firewall
+# rhel-system-roles.tuned конфигурирует tuned service
+# дополнительные системные роли RHEL вероятно будут введены
