@@ -1,0 +1,9 @@
+---
+- name: setting up time
+  hosts: node2.example.com
+  roles:
+    - rhel-system-roles.timesync
+  tasks:
+    - name: set timezone
+      timezone:
+        name: "{{ timezone }}"
