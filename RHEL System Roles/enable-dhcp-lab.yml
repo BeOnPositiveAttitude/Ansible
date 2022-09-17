@@ -1,0 +1,13 @@
+---
+- hosts: node2.example.com
+  vars:
+    network_connections:
+      - name: prod1
+        state: up
+        type: ethernet
+        autoconnect: yes
+        mac: 00:0c:29:2b:cd:35
+        mtu: 1450
+
+  roles:
+    - rhel-system-roles.network
