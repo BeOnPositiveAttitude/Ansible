@@ -1,0 +1,9 @@
+- name: install the {{ package }} package
+  dnf:
+    name: "{{ package }}"
+    state: latest
+- name: start the {{ service }} service
+  service:
+    name: "{{ service }}"
+    enabled: true
+    state: started
