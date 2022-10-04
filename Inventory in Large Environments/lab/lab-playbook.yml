@@ -6,7 +6,7 @@
       include_vars: lab-vars/allvars.yml
 
     - name: include the tasks
-      include: lab-tasks/firewall.yml
+      include_tasks: lab-tasks/firewall.yml
 
 - name: configure lamp servers
   hosts: lamp
@@ -15,7 +15,7 @@
       include_vars: lab-vars/allvars.yml
 
     - name: include the tasks
-      include: lab-tasks/lamp.yml
+      include_tasks: lab-tasks/lamp.yml
 
 - name: configure file servers
   hosts: file
@@ -24,6 +24,6 @@
       include_vars: lab-vars/allvars.yml
 
     - name: include the tasks
-      include: lab-tasks/file.yml
+      include_tasks: lab-tasks/file.yml
 
 
