@@ -10,5 +10,5 @@
     register: result
   - name: show result of a registered variable
     debug:
-      var: "{{ result }}"
-      verbosity: 2
+      var: result
+#      verbosity: 2
