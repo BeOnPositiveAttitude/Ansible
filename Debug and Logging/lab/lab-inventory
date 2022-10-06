@@ -1,0 +1,9 @@
+[all]
+node1.example.com
+node2.example.com
+
+[lamp]
+node1.example.com
+
+[file]
+node2.example.com
