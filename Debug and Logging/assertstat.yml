@@ -6,6 +6,9 @@
       stat:
         path: /etc
       register: sta
+    - name: show value of sta variable
+      debug:
+        var: sta
     - name: assert that /etc is a directory
       assert:
         that: sta.stat.isdir
