@@ -2,3 +2,15 @@
 # в системах должны быть настроены подписки
 # репозитории и каналы программного обеспечения должны быть сконфигурированы
 # программное обеспечение должно быть установлено либо удалено
+
+# package: модуль для управления пакетами, не зависящий от дистрибутива ОС
+# win_pacakge: управляет пакетами на Windows
+# apt: управляет пакетами на Ubuntu
+# yum: управляет пакетами на RHEL
+# yum_repository: управляет Yum-репозиториями
+# package_facts: возвращает информацию о пакетах в виде facts
+# rpm_key: добавляет или удаляет GPG-ключи из базы данных RPM-пакетов
+# redhat_subscription: использует команду subscription_manager для управления подписками
+# rhn_register: управляет Red Hat Network registration с помощью rhnreg_ks
+# rhn_channel: управляет подпиской RHN Channel
+# также доступны другие модули, больше информации смотри https://docs.ansible.com/ansible/2.9/modules/list_of_packaging_modules.html 
