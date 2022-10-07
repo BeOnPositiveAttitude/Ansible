@@ -1,0 +1,44 @@
+---
+- name: install FTP to export repo
+  hosts: localhost
+  tasks:
+  - name: install FTP server
+    dnf:
+      name: vsftpd
+      state: latest
+
+  - name: start FTP server
+    service:
+      name: vsftpd
+      enabled: yes
+      state: started
+
+  - name: open firewall for FTP
+    firewalld:
+      service: ftp
+      permanent: yes
+      #immediate: yes
+      state: enabled
+
+- name: setup the repo directory
+  hosts: localhost
+  vars:
+    repo_dir: /var/ftp/repo
+  tasks:
+  - name: make directory
+    file:
+      path: "{{ repo_dir }}"
+      state: directory
+
+  - name: install dnf utils
+    dnf:
+      name: 
+        - dnf-utils
+        - createrepo
+      state: latest
+
+  - name: download sample package
+    command: yumdownloader nmap --destdir "{{ repo_dir }}"
+
+  - name: create repo
+    command: createrepo "{{ repo_dir }}"
