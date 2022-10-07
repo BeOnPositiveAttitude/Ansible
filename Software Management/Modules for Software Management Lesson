@@ -13,4 +13,4 @@
 # redhat_subscription: использует команду subscription_manager для управления подписками
 # rhn_register: управляет Red Hat Network registration с помощью rhnreg_ks
 # rhn_channel: управляет подпиской RHN Channel
-# также доступны другие модули, больше информации смотри https://docs.ansible.com/ansible/2.9/modules/list_of_packaging_modules.html 
+# также доступны другие модули, больше информации смотри https://docs.ansible.com/ansible/2.9/modules/list_of_packaging_modules.html
