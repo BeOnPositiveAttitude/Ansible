@@ -1,0 +1,39 @@
+---
+- name: configure repository
+  hosts: node1.example.com
+  vars:
+    my_package: nmap
+  tasks:
+  - name: get packages facts
+    package_facts:
+      manager: auto
+
+  - name: show package facts for my_package
+    debug:
+      var: ansible_facts.packages[my_package]
+    when: my_package in ansible_facts.packages
+
+  - name: connect to example repo
+    yum_repository:
+      name: lab_repo
+      description: Repo maked by Ansible
+      file: ansible_lab
+      baseurl: ftp://master.example.com/repo/
+      gpgcheck: no
+  
+  # для корректной работы vsftpd нужно в /etc/vsftpd/vsftpd.conf выключить listen_ipv6=NO, включить listen=YES,
+  # включить anonymous_enable=YES, т.к. по дефолту он слушает на 21 порту только для tcp_ipv6, и не разрешает анонимный вход
+
+  - name: install package
+    dnf:
+      name: "{{ my_package }}"
+      state: present
+
+  - name: update package facts
+    package_facts:
+      manager: auto
+
+  - name: show package facts for my_package
+    debug:
+      var: ansible_facts.packages[my_package]
+    when: my_package in ansible_facts.packages

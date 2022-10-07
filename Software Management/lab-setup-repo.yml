@@ -17,7 +17,7 @@
     firewalld:
       service: ftp
       permanent: yes
-      #immediate: yes
+      immediate: yes   #важно всегда ставить эту опцию, иначе правило не включится сразу
       state: enabled
 
 - name: setup the repo directory
