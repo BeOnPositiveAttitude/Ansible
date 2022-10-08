@@ -1,0 +1,31 @@
+---
+- name: configure sudo
+  hosts: node1.example.com
+  vars_files: 
+    - vars/defaults
+    - vars/lab_users
+  tasks:
+  - name: add groups
+    group:
+      name: "{{ item.name }}"
+    loop: "{{ sudo_groups }}"
+
+  - name: add users
+    user:
+      name: "{{ item.username }}"
+      group: "{{ item.groups }}"
+    loop: "{{ lab_users }}"
+
+  - name: add SSH public keys
+    authorized_key:
+      user: "{{ item.username }}"
+      key: "{{ lookup('file', 'files/lab/'+ item.username + '/id_rsa.pub') }}"
+    loop: "{{ lab_users }}"
+
+  - name: add admins group members to sudo
+    template:
+      src: sudoers.j2
+      dest: /etc/sudoers.d/sudogroups
+      mode: 0440
+      validate: 'visudo -cf %s'
+    

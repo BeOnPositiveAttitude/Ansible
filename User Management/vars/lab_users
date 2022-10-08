@@ -1,0 +1,14 @@
+---
+lab_users:
+  - username: bill
+    groups: admins
+  - username: bob
+    groups: admins
+  - username: bea
+    groups: developers
+  - username: betty
+    groups: developers
+  - username: brenda
+    groups: dbas
+  - username: benny
+    groups: dbas
