@@ -1,0 +1,4 @@
+---
+usergroups:
+  - groupname: sales
+  - groupname: account
