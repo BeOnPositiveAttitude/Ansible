@@ -1,0 +1,11 @@
+---
+- name: run an at task
+  hosts: node2.example.com
+  tasks:
+    - name: create my at task
+      at:
+        command: "date > /tmp/my-at-file"
+        count: 1
+        units: minutes
+        unique: yes
+        state: present
