@@ -1,0 +1,19 @@
+---
+- name: set default boot target and reboot
+  hosts: node2.example.com
+  tasks:
+    - name: set boot target to multi-user
+      file:
+        src: /usr/lib/systemd/system/multi-user.target
+        dest: /etc/systemd/system/default.target
+        state: link
+
+    - name: reboot hosts
+      reboot:
+        msg: reboot initiated by Ansible
+        test_command: whoami
+      register: reboot_result
+
+    - name: print message to show host is back
+      debug:
+        msg: successfully rebooted
