@@ -1,0 +1,6 @@
+# parted: запускает утилиту parted
+# lvg: создает LVM volume group
+# lvol: создает LVM logical volumes
+# filesystem: управляет файловой системой
+# mount: управляет монтированием
+# vdo: управляет VDO storage
