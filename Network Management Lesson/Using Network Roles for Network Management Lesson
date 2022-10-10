@@ -1,0 +1,7 @@
+# RHEL 8 включает в себя RHEL system role для управления сетевыми настройками
+# используйте ansible-galaxy list для обзора всех RHEL8 system roles
+# содержимое ролей можно увидеть в /usr/share/ansible/roles
+# две переменные используются для конфигурирования сетевой роли:
+# - network_provider: обычно устанавливается равным nm
+# - network_connections: указывает детали о сетевом подключении
+# значения по умолчанию для этих переменных установлены в /usr/share/ansible/roles/rhel-system-roles.network
