@@ -1,0 +1,13 @@
+---
+- name: setup a NIC
+  hosts: node2.example.com
+  tasks:
+  - name: configure ens224
+    nmcli:
+      conn_name: ipv6-conn
+      ifname: ens224
+      type: ethernet
+      ip6: fc00::202/64
+      gw6: fc00::1
+      dns6: 2001:4860:4860::8888
+      state: present
