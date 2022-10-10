@@ -2,3 +2,7 @@
 # nmcli используется для управления множеством параметров сетевых устройств или подключений
 # hostname может быть использован для задания имени управляемого хоста
 # firewalld может быть использован для управлвения правилами Firewalld
+
+ansible all -m setup -a 'gather_subset=network filter=ansible_interfaces'
+ansible node2.example.com -m setup -a 'gather_subset=network filter=ansible_ens224'
+

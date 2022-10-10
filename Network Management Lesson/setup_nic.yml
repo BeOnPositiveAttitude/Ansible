@@ -1,0 +1,29 @@
+---
+- name: setup a NIC
+  hosts: node2.example.com
+  tasks:
+  - name: configure ens224
+    nmcli:
+      conn_name: new-conn
+      ifname: ens224
+      type: ethernet
+      ip4: 10.0.0.10/24
+      state: present
+
+  - name: set hostname
+    hostname:
+      name: node2.example.com
+
+  - name: move ens224 to internal zone
+    firewalld:
+      zone: internal
+      interface: ens224
+      permanent: yes
+      state: enabled
+
+  - name: enable http in firewall internal zone
+    firewalld:
+      zone: internal
+      service: http
+      permanent: yes
+      state: enabled
