@@ -1,0 +1,30 @@
+---
+- name: Gather facts for disk devices
+  gather_facts: false
+  hosts: all
+  vars:
+    disks: []
+  tasks:
+    - name: setup
+      setup:
+      register: fact_one
+
+    - set_fact:
+        all_devices: "{{ fact_one.ansible_facts.ansible_devices }}"
+    
+    - debug:
+        var: all_devices
+
+    - name: Return data for parent block devices
+      set_fact:
+        disks: "{{ disks + [item.key] }}"
+      with_dict: "{{ all_devices }}"
+      when: item.value.host
+
+    - name: diag
+      debug:
+        msg: "{{ disks }}"
+
+    - name: pick 2nd disk
+      debug:
+        msg: "{{ disks[1] }}"
