@@ -1,0 +1,5 @@
+---
+- name: configure NIC
+  hosts: node2.example.com
+  roles:
+  - rhel-system-roles.network
