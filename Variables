@@ -24,7 +24,7 @@
 - play scope   #переменная действует на уровне play
 - host scope   #переменная задана через инвентарь или через inclusion-файл
 # когда переменная задается из командной строки, она имеет наивысший приоритет
-ansible-playbook site.yml -e "web_package=apache"   #задается через параметр "e"
+ansible-playbook site.yml -e "web_package=apache"   #задается через параметр e=extra-vars
 
 # существуют встроенные переменные, которые не могут быть использованы для чего-то еще
 - hostvars
