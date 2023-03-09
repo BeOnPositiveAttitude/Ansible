@@ -21,3 +21,7 @@
 - `smart` означает собирать facts по умолчанию, но не собирать заново, если facts уже собраны
 
 Значение опции `gather_facts` в playbook-е имеет более высокий приоритет, чем в файле ansible.cfg.
+
+Также возможно задание environment variable `ANSIBLE_GATHERING` непосредственно перед выполнением playbook-а. У нее будет самый высокий приоритет. Однако нужно помнить, что при таком способе значение `ANSIBLE_GATHERING` будет действовать только на один запуск playbook.
+
+`ANSIBLE_GATHERING=explicit ansible-playbook playbook.yml`
