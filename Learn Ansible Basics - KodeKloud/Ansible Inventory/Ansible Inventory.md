@@ -31,3 +31,5 @@ infra_servers
 - ansible_user - root/administrator
 - ansible_ssh_pass - Passw0rd
 - ansible_password - для Windows-хостов
+
+Если playbook запускается на ansible-controller, нужно добавить опцию `connection: local` на уровне play.

@@ -76,3 +76,19 @@ Playbook сочетающий loop и conditionals:
 ```
 
 Если в `result.stdout` не будет найдено слова 'down', тогда вернется код ответа '-1'. Соответственно мы отсылаем нотификацию, если код ответа не равен '-1', что означает наличие слова 'down' в `result.stdout`.
+
+Когда в playbook-е определена переменная, то при обращении к ней в блоке when, не нужно заключать ее в фигурные скобки:
+
+```yaml
+---
+- name: 'Am I a Banana or not?'
+  hosts: localhost
+  connection: local
+  vars:
+    fruit: banana
+  tasks:
+    - command: 'echo "I am a Banana"'
+      when: fruit == "banana"
+    - command: 'echo "I am not a Banana"'
+      when: fruit != "banana"
+```

@@ -52,4 +52,9 @@ If you installed Ansible from pip or from source, you may want to create this fi
 
 Далее можно создать директорию `/etc/ansible` и переместить этот файл туда.
 
-Редактируем опцию: `host_key_checking=False`.
+Редактируем опцию:
+
+```bash
+[defaults]
+host_key_checking = False
+```
