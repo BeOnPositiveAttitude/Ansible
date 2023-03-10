@@ -12,3 +12,5 @@ ansible all -m copy -a 'content="hello world" dest=/etc/motd'   #записат�
 ansible all -m shell -a 'cat /etc/motd'   #просмотреть содержимое файла
 ansible -u root -i inventory ansible-node3 --ask-pass -m raw -a 'dnf install python3 -y'   #u=user, если на хосте нет питона3, можно установить модулем raw
 # для этого нужен установленный sshpass
+
+ansible localhost -m ping   #пингануть localhost
