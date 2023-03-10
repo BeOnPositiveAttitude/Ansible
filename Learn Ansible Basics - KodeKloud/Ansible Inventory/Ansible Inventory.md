@@ -33,3 +33,13 @@ infra_servers
 - ansible_password - для Windows-хостов
 
 Если playbook запускается на ansible-controller, нужно добавить опцию `connection: local` на уровне play.
+
+Еще пример инвентаря:
+
+```ini
+[db_servers]
+lamp-db ansible_host=172.20.1.101 ansible_ssh_pass=maria ansible_user=maria
+
+[web_servers]
+lamp-web ansible_host=172.20.1.100 ansible_ssh_pass=john ansible_user=john
+```
