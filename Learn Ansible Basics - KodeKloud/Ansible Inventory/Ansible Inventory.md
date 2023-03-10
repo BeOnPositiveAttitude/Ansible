@@ -2,7 +2,7 @@
 
 Пример инвентаря в ini-формате:
 
-```yaml
+```ini
 web    ansible_host=server1.company.com   ansible_connection=ssh     ansible_user=root
 db     ansible_host=server2.company.com   ansible_connection=winrm   ansible_user=admin
 mail   ansible_host=server3.company.com   ansible_connection=ssh     ansible_ssh_pass=Pa$$w0rd
