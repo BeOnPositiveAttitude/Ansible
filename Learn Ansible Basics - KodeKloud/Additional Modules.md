@@ -107,9 +107,22 @@
       remote_src: yes
 ```
 
+```yaml
+---
+- name: Download and extract from URL
+  hosts: web1
+  tasks:
+  -   unarchive:
+       src: https://github.com/kodekloudhub/Hello-World/archive/master.zip
+       dest: /root
+       remote_src: yes
+```
+
 По умолчанию модуль `unarchive` берет архив `src` с ansible-controller и разархивирует на управляемые хосты `dest`. Если архив уже находится на управляемых хостах, тогда нужно использовать опцию `remote_src: yes`.
 
 ## Модуль cron
+
+Если не указать какой-либо параметр, тогда его значение будет по умолчанию равно *.
 
 ```yaml
 ---
@@ -126,6 +139,50 @@
       weekday: 1   #1=Monday, 0=Sunday, 6=Saturday
 ```
 
+Удалить job:
+
+```yaml
+---
+- name: remove cron job from node00
+  hosts: node00
+  tasks:
+  - name: Remove cron job
+    cron:
+      name: "Check Memory"
+      state: absent
+```
+
+Выполнять job после каждой перезагрузки хоста:
+
+```yaml
+---
+- name: Cleanup /tmp after every reboot
+  hosts: node00
+  tasks:
+   - cron:
+      name: cleanup
+      job: rm -rf /tmp/*
+      special_time: reboot
+```
+
+Создать отдельный файл `/etc/cron.d/ansible_yum` вместо прямого добавления в crontab и добавить job именно для пользователь root:
+
+```yaml
+---
+- name: Create cron for yum
+  hosts: node00
+  tasks:
+    - name: Creates a cron
+      cron:
+        name: yum update
+        weekday: 0
+        minute: 5
+        hour: 8
+        user: root
+        job: "yum -y update"
+        cron_file: ansible_yum
+```
+
 ## Модуль для управления публичными ssh-ключами
 
 ```yaml
@@ -139,4 +196,38 @@
       key: |
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAA
 BAQC4WKn4K2G3iWg9HdCGo34gh+……root@97a1b9c3a
+```
+
+```yaml
+---
+- hosts: web1
+  tasks:
+    - name: Find files
+      find:
+        paths: /opt/data
+        age: 2m
+        size: 1m
+        recurse: yes
+      register: file
+
+    - name: Copy files
+      command: "cp {{ item.path }} /opt"  #берет значение file.files.path (путь до файла) и копирует этот файл в /opt
+      with_items: "{{ file.files }}"      #проходит по свойству files переменной file
+```
+
+Пример использования модуля `blockinfile`:
+
+```yaml
+---
+- name: Add block to index.html
+  hosts: web1
+  tasks:
+   - blockinfile:
+      owner: apache
+      group: apache
+      insertbefore: BOF
+      path: /var/www/html/index.html
+      block: |
+       Welcome to KodeKloud!
+       This is Ansible Lab.
 ```
