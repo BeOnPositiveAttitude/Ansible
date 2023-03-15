@@ -14,7 +14,7 @@ web3 ansible_host=172.20.1.102
   hosts: all
   tasks:
   - debug:
-      msg: ‘{{ dns_server }}’
+      msg: '{{ dns_server }}'
 ```
 
 Когда ansible запускает playbook, он создает три sub-processes, по одному для каждого хоста. Перед тем как выполнить таски на каждом хосте, ansible запускает variable interpolation stage, в ходе которой собираются переменные из всех доступных источников и переменные ассоциируются с определенными хостами.
@@ -44,7 +44,7 @@ ok: [web3] => {
   hosts: all
   tasks:
   - debug:
-      msg: ‘{{ hostvars['web2'].dns_server }}’
+      msg: '{{ hostvars['web2'].dns_server }}'
 ```
 
 В итоге получим:
