@@ -104,3 +104,26 @@ ok: [web1] => {
     "ntp_server": "10.1.1.1"
 }
 ```
+
+## Use variables to retrieve the results of running commands
+
+Переменная созданная с помощью ключевого слова `register` доступна на уровне Host Scope и может быть вызвана в течение выполнения всего playbook-а:
+
+```yaml
+---
+- name: Check /etc/hosts file
+  hosts: all
+  tasks:
+  - shell: cat /etc/hosts
+    register: result
+  - debug:
+var: result.rc
+
+- name: Play2
+  hosts: all
+  tasks:
+  - debug:
+      var: result.rc
+```
+
+То есть в Play2 переменная тоже будет доступна.
