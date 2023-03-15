@@ -117,7 +117,7 @@ ok: [web1] => {
   - shell: cat /etc/hosts
     register: result
   - debug:
-var: result.rc
+      var: result.rc
 
 - name: Play2
   hosts: all
