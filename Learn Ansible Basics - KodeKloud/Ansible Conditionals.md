@@ -92,3 +92,50 @@ Playbook сочетающий loop и conditionals:
     - command: 'echo "I am not a Banana"'
       when: fruit != "banana"
 ```
+
+Два варианта решения одной и той же задачи. Если git не установлен на хосте, тогда записать в файл `/tmp/is_git_installed.txt` сообщение 'Oops, git is missing'. Если git установлен на хосте, тогда записать в файл `/tmp/is_git_installed.txt` версия git.
+
+```yaml
+- hosts: web2
+  gather_facts: false
+  tasks:
+    - shell: dpkg -l git   #dpkg -l выводит список всех установленных в системе пакетов, dpkg -l git проверяет есть ли среди них git
+      register: check_if_git_installed
+      ignore_errors: true
+
+    - debug: var=check_if_git_installed
+    - shell: echo 'Oops, git is missing' > /tmp/is_git_installed.txt
+      when: check_if_git_installed.rc != 0
+
+    - shell: git --version > /tmp/is_git_installed.txt
+      when: check_if_git_installed.rc == 0
+```
+
+```yaml
+- hosts: web2
+  tasks:
+  - name: Gather the package facts
+    package_facts:   #модуль собирает данные об установленных в системе пакетах и сохраняет их в виде facts
+      manager: apt
+
+  - name: Git missing message
+    shell: echo 'Oops, git is missing' > /tmp/is_git_installed.txt
+    when: "'git' not in ansible_facts.packages"
+
+  - name: Git version message
+    shell: git --version > /tmp/is_git_installed.txt
+    when: "'git' in ansible_facts.packages"
+```
+
+```yaml
+- name: copy script if not present
+  gather_facts: yes
+  hosts: web2
+  vars:
+    remote_dest: /usr/local/bin/report_status.sh
+  tasks:
+    - copy:
+        src: report_status.sh
+        dest: "{{ remote_dest }}"
+      when: copy_file_only_if is defined and copy_file_only_if|bool   #явно задать тип переменной - boolean
+```
