@@ -74,6 +74,10 @@ ok: [web3] => {
 
 `msg: {{ hostvars['web2']['ansible_facts']['processor'] }}`.
 
+Получить ip-адрес хоста через facts:
+
+`msg: {{ hostvars['web2'].ansible_facts.eth0.ipv4.address }}`.
+
 Другая magic variable называется `groups`. Она покажет какие хосты входят в состав этой группы.
 
 ```ini
