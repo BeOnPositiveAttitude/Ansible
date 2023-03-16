@@ -8,6 +8,12 @@ The name is {{ my_name | title }} => The name is Bond
 The name is {{ my_name | replace(“Bond”, “Bourne”) }} => The name is Bourne
 ```
 
+Jinja2 filters в данном случае это:
+- upper
+- lower
+- title
+- replace
+
 По умолчанию, если для переменной не задано какого-либо значения, то Jinja2 engine выдаст ошибку о том, что переменная не определена. Если мы хотим избежать этого и использовать дефолтное значение для переменной, если это значение не определено явно:
 
 `The name is {{ first_name | default(“James”) }} {{ my_name }} => The name is James Bond`.
