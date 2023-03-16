@@ -51,3 +51,160 @@ Jinja2 filters в данном случае это:
     {% endif %}
 {% endfor %}
 ```
+
+### Пример 1
+
+Чтобы преобразовать:
+
+```
+{
+  "names": [
+    "Alpha",
+    "Beta",
+    "Charlie",
+    "Delta",
+    "Echo"
+  ]
+}
+```
+
+В такой формат:
+
+```
+Alpha
+Beta
+Charlie
+Delta
+Echo
+```
+
+Используем выражение:
+
+```
+{% for name in names -%}   #символ тире убирает пустые строки в итоговом выводе
+{{ name }}
+{% endfor %}
+```
+
+### Пример 2
+
+Чтобы преобразовать:
+
+```
+{
+  "name_servers": [
+    "10.1.1.5",
+    "10.1.1.6",
+    "10.1.1.8",
+    "10.8.8.1",
+    "8.8.8.8"
+  ]
+}
+```
+
+В такой формат:
+
+```
+nameserver 10.1.1.5
+nameserver 10.1.1.6
+nameserver 10.1.1.8
+nameserver 10.8.8.1
+nameserver 8.8.8.8
+```
+
+Используем выражение:
+
+```
+{% for name_server in name_servers -%}
+nameserver {{ name_server }}
+{% endfor %}
+```
+
+### Пример 3
+
+Чтобы преобразовать:
+
+```
+{
+  "hosts": [
+    {
+      "name": "web1",
+      "ip_address": "192.168.5.4"
+    },
+    {
+      "name": "web2",
+      "ip_address": "192.168.5.5"
+    },
+    {
+      "name": "web3",
+      "ip_address": "192.168.5.8"
+    },
+    {
+      "name": "db1",
+      "ip_address": "192.168.5.9"
+    }
+  ]
+}
+```
+
+В такой формат:
+
+```
+web1 192.168.5.4
+web2 192.168.5.5
+web3 192.168.5.8
+db1 192.168.5.9
+```
+
+Используем выражение:
+
+```
+{% for host in hosts -%}
+{{ host.name }} {{ host.ip_address }}
+{% endfor %}
+```
+
+### Пример 4
+
+Чтобы преобразовать:
+
+```
+{
+  "hosts": [
+    {
+      "name": "web1",
+      "ip_address": "192.168.5.4"
+    },
+    {
+      "name": "web2",
+      "ip_address": "192.168.5.5"
+    },
+    {
+      "name": "web3",
+      "ip_address": "192.168.5.8"
+    },
+    {
+      "name": "db1",
+      "ip_address": "192.168.5.9"
+    }
+  ]
+}
+```
+
+В такой формат:
+
+```
+web1 192.168.5.4
+web2 192.168.5.5
+web3 192.168.5.8
+```
+
+Используем выражение:
+
+```
+{% for host in hosts -%}
+  {% if "web" in host.name -%}
+{{ host.name }} {{ host.ip_address -}}
+  {% endif %}
+{% endfor %}
+```
