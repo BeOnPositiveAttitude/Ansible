@@ -104,6 +104,19 @@ admin_email: admin@company.com
       body: Httpd Service is down
 ```
 
+Или должно сработать так:
+
+```yaml
+- name: Deploy Web & DB Server
+  hosts: web-db-server
+  tasks:
+  - include_vars: /opt/apps/common-data/email/info.yml   #указываем наш "нестандартный" файл
+  - mail:
+      to: "{{ admin_email }}"
+      subject: Service Alert
+      body: Httpd Service is down
+```
+
 Если нам нужно посмотреть итоговый инвентарь, то можно воспользоваться командой:
 
 `ansible-inventory -i inventory/ -y --list`.
