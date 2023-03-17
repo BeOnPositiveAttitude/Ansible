@@ -139,3 +139,5 @@ Playbook сочетающий loop и conditionals:
         dest: "{{ remote_dest }}"
       when: copy_file_only_if is defined and copy_file_only_if|bool   #явно задать тип переменной - boolean
 ```
+
+Выражение `copy_file_only_if|bool` является сокращенной версией `copy_file_only_if|bool == true`.
