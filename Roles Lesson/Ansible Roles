@@ -51,4 +51,42 @@
       var2: goat
 
 # смотреть путь куда устанавливаются роли в системе: `ansible-config dump | grep ROLE`
+# в файле ansible.cfg можно указать путь до каталога с ролями:
 
+```ini
+roles_path = /etc/ansible/roles
+```
+
+Можно вызвать роль таким способом:
+
+```yaml
+- name: Install and Configure MySQL
+  hosts: db-server
+  roles:
+    - geerlingguy.mysql
+```
+
+А можно немного по другому:
+
+```yaml
+- name: Install and Configure MySQL
+  hosts: db-server
+  roles:
+    - role: geerlingguy.mysql
+      become: yes
+      vars:
+        mysql_user_name: db-user
+```
+
+Или даже так:
+
+```yaml
+- name: Deploy Web Server
+  hosts: web_server
+  roles:
+    - name: geerlingguy.nginx
+      vars:
+        nginx_service_enabled: no
+```
+
+При таком способе можно определить дополнительные опции и переменные для роли.
