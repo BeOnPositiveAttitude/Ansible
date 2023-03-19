@@ -265,3 +265,43 @@ BAQC4WKn4K2G3iWg9HdCGo34gh+……root@97a1b9c3a
       password: "{{ developer_pass | string | password_hash('sha512') }}"
     loop: "{{ developers }}"
 ```
+
+```yaml
+- hosts: node01
+  tasks:
+  - name: Install packages
+    yum:
+      name:
+        - httpd
+        - php
+      state: present
+    tags: install
+  - name: Create custom directory
+    file:
+      path: /var/www/html/myroot
+      state: directory
+      owner: apache
+      group: apache
+  - name: Change default document root
+    replace:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: 'DocumentRoot "/var/www/html"'
+      replace: 'DocumentRoot "/var/www/html/myroot"'
+  - name: Copy template
+    template:
+      src: phpinfo.php.j2
+      dest: /var/www/html/myroot/phpinfo.php
+      owner: apache
+      group: apache
+  - name: Start service
+    service:
+      name: httpd
+      state: started
+      enabled: true
+  - name: Add firewall rule
+    firewalld:
+      zone: public
+      port: 80/tcp
+      permanent: true
+      state: enabled
+```
