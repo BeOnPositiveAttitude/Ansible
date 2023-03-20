@@ -305,3 +305,70 @@ BAQC4WKn4K2G3iWg9HdCGo34gh+……root@97a1b9c3a
       permanent: true
       state: enabled
 ```
+
+```yaml
+- hosts: node02
+  vars:
+    services:
+      - nginx
+      - mariadb
+    lines:
+      - old: '\$database = "database";'
+        new: '$database = "mydb";'
+      - old: '\$username = "user";'
+        new: '$username = "myuser";'
+      - old: '\$password = "password";'
+        new: '$password = "mypassword";'
+  tasks:
+  - name: Start services
+    service:
+      name: "{{ item }}"
+      state: started
+    loop: "{{ services }}"
+  - name: Delete files and directories
+    shell: rm -rf /usr/share/nginx/html/*
+  - name: Download and extract archive
+    unarchive:
+      src: https://github.com/indercodes/ansible-1100-mock-nginx/raw/master/index.php.zip
+      dest: /usr/share/nginx/html/
+      remote_src: true
+  - name: Replace values in index.php
+    replace:
+      path: /usr/share/nginx/html/index.php
+      regexp: "{{ item.old }}"
+      replace: "{{ item.new }}"
+    loop: "{{ lines }}"
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted
+```
+
+```yaml
+- name: Update DB details
+  replace:
+    path: /usr/share/nginx/html/index.php
+    regexp: '{{ item.1 }}'
+    replace: '{{ item.2 }}'
+  with_items:
+    - { 1: '\$database.*', 2: '$database = "mydb";' }
+    - { 1: '\$username.*', 2: '$username = "myuser";' }
+    - { 1: '\$password.*', 2: '$password = "mypassword";' }
+```
+
+```yaml
+- hosts: node02
+  gather_facts: true
+  tasks:
+  - blockinfile:
+      path: /root/facts.txt
+      create: true
+      block: |   #без пайпа все будет в одну строку
+        This is Ansible managed node {{ ansible_nodename }}
+        IP address of host is {{ ansible_default_ipv4.address }}
+        Its OS family is {{ ansible_os_family }}
+  - copy:
+      src: /root/facts.txt
+      dest: /usr/share/nginx/html/index.html
+      remote_src: true
+```
