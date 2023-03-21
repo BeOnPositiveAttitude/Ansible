@@ -199,6 +199,16 @@ BAQC4WKn4K2G3iWg9HdCGo34gh+……root@97a1b9c3a
 ```
 
 ```yaml
+- hosts: all
+  gather_facts: false
+  tasks:
+  - authorized_key:
+      user: root
+      state: present
+      key: "{{ lookup('file', 'john_doe.pub') }}"
+```
+
+```yaml
 ---
 - hosts: web1
   tasks:
@@ -371,4 +381,62 @@ BAQC4WKn4K2G3iWg9HdCGo34gh+……root@97a1b9c3a
       src: /root/facts.txt
       dest: /usr/share/nginx/html/index.html
       remote_src: true
+```
+
+```yaml
+- hosts: all
+  tasks:
+  - pip:
+      name: awscli
+      state: latest
+      executable: pip3
+```
+
+```yaml
+- hosts: all
+  gather_facts: false
+  tasks:
+  - name: Install Web Server
+    yum:
+      name: nginx
+      state: present
+  - name: Copy index.html
+    copy:
+      src: index.html
+      dest: /usr/share/nginx/html/index.html
+  - name: Start Nginx
+    service:
+      name: nginx
+      state: started
+      enabled: true
+```
+
+
+```yaml
+- hosts: all
+  gather_facts: false
+  vars:
+    packages:
+    - git
+    - make
+    - autoconf
+    - automake
+    - protobuf-devel
+    - libutempter-devel
+    - ncurses-devel
+    - openssl-devel
+    - gcc
+    - gcc-c++
+  tasks:
+  - yum:
+      name: "{{ packages }}"
+      state: present
+  - git:
+      repo: https://github.com/mobile-shell/mosh
+      dest: /tmp/mosh
+      force: true
+  - name: make
+    shell: ./autogen.sh && ./configure && make && make install
+    args:
+      chdir: /tmp/mosh
 ```
