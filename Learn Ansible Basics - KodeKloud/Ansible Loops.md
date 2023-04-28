@@ -100,3 +100,17 @@ Playbook "раскроется" в две таски:
 Все что написано после слова 'with' является lookup плагином.
 
 Lookup плагин - это по сути кастомный скрипт, который выполняет определенные задачи, например чтение файла, подключение к url, БД, k8s, openshift.
+
+Пример работы с двумя списками, когда нескольким пользователям нужно дать доступ к нескольким БД:
+
+```yaml
+- name: give users access to multiple databases
+  community.mysql.mysql_user:
+    name: "{{ item[0] }}"
+    priv: "{{ item[1] }}.*:ALL"
+    append_privs: yes
+    password: "foo"
+  with_nested:
+    - [ 'alice', 'bob' ]
+    - [ 'clientdb', 'employeedb', 'providerdb' ]
+```
