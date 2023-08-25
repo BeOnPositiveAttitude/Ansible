@@ -12,3 +12,7 @@ sudo apt-get install ansible
 Дефолтные файлы `/etc/ansible/ansible.cfg` и `/etc/ansible/hosts` создаются только если ansible был установлен с помощью пакетного менеджера (yum, dnf, apt). Если ansible установлен с помощью pip эти файлы НЕ создаются.
 
 Установить ansible определенной версии с помощью pip3 для всех пользователей в системе: `sudo pip3 install ansible==4.10.0`.
+
+Либо как указано на официальном сайте: `python3 -m pip install --user ansible`. Ansible в этом случае будет установлен в каталог `~/.local/bin`. 
+
+Нужно добавить в файле `.bashrc` строчку: `export PATH=$PATH:~/.local/bin`.
