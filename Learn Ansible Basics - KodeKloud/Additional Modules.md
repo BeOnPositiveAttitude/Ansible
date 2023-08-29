@@ -440,3 +440,55 @@ BAQC4WKn4K2G3iWg9HdCGo34gh+……root@97a1b9c3a
     args:
       chdir: /tmp/mosh
 ```
+
+```yaml
+- name: Manage ACLs playbook
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+  - name: stapp01
+    block:
+    - name: Create file on {{ inventory_hostname }}
+      file:
+        path: /opt/sysops/blog.txt
+        state: touch
+    - name: Set ACLs on file {{ inventory_hostname }}
+      acl:
+        path: /opt/sysops/blog.txt
+        entity: "{{ ansible_user }}"
+        etype: group
+        permissions: r
+        state: present
+    when: inventory_hostname == 'stapp01'
+
+  - name: stapp02
+    block:
+    - name: Create file on {{ inventory_hostname }}
+      file:
+        path: /opt/sysops/story.txt
+        state: touch
+    - name: Set ACLs on file {{ inventory_hostname }}
+      acl:
+        path: /opt/sysops/story.txt
+        entity: "{{ ansible_user }}"
+        etype: user
+        permissions: rw
+        state: present
+    when: inventory_hostname == 'stapp02'
+
+  - name: stapp03
+    block:
+    - name: Create file on {{ inventory_hostname }}
+      file:
+        path: /opt/sysops/media.txt
+        state: touch
+    - name: Set ACLs on file {{ inventory_hostname }}
+      acl:
+        path: /opt/sysops/media.txt
+        entity: "{{ ansible_user }}"
+        etype: group
+        permissions: rw
+        state: present
+    when: inventory_hostname == 'stapp03' 
+```
