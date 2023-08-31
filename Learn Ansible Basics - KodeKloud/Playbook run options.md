@@ -8,3 +8,6 @@
 
 `ansible-playbook playbook.yml --skip-tags "install"`
 
+Запрашивать vault password при запуске playbook: `ansible-playbook playbook.yml --ask-vault-pass`.
+
+Использовать определенный ssh-ключ при запуске playbook: `ansible-playbook playbook.yml --private-key=~/.ssh/ansible-pid`.
