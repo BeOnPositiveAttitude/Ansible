@@ -276,6 +276,23 @@ BAQC4WKn4K2G3iWg9HdCGo34gh+……root@97a1b9c3a
     loop: "{{ developers }}"
 ```
 
+Содержимое файла с переменными `data/users.yml`:
+
+```yaml
+admins:
+  - rob
+  - david
+  - joy
+
+developers:
+  - tim
+  - ray
+  - jim
+  - mark
+```
+
+Сам playbook, использующий данные переменные:
+
 ```yaml
 - name: Add users and groups
   hosts: stapp01
