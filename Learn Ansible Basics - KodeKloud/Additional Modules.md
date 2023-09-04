@@ -277,6 +277,54 @@ BAQC4WKn4K2G3iWg9HdCGo34gh+……root@97a1b9c3a
 ```
 
 ```yaml
+- name: Add users and groups
+  hosts: stapp01
+  gather_facts: false
+  become: true
+  vars_files:
+    - data/users.yml
+  vars:
+    developer_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          33663262356639303665363866643561636562653438306632373862386262356564346461316262
+          3863666336643065653239343365613930323332363133650a376332366634363666666538666638
+          35303231393364363761333339373135623064353930663230636461646532373765393234373464
+          3431393431363738390a623164626631306636363333346563306638366236653634623265393932
+          3561
+    admin_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          63626336316337383763373233653837356562323465393463306432366135613461666631386331
+          6334356666656332363366663431313139313939663230300a386637626466623530613064303764
+          62633438653538333536343830646561356333373232613837623832373737613664333761643239
+          3834363036623930620a313939306333613935386633313061663261633137303166666233623265
+          6634
+  tasks:
+  - name: Add groups
+    group:
+      name: "{{ item }}"
+    loop:
+      - admins
+      - developers
+
+  - name: Add admins users
+    user:
+      name: "{{ item }}"
+      groups: admins, wheel
+      append: true
+      password: "{{ admin_pass | string | password_hash('sha512') }}"
+    loop: "{{ admins }}"
+   
+  - name: Add developers users
+    user:
+      name: "{{ item }}"
+      groups: developers
+      append: true
+      home: "/var/www/{{ item }}"
+      password: "{{ developer_pass | string | password_hash('sha512') }}"
+    loop: "{{ developers }}"
+```
+
+```yaml
 - hosts: node01
   tasks:
   - name: Install packages
