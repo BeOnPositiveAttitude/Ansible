@@ -18,7 +18,7 @@ web3 ansible_host=172.20.1.102
   hosts: all
   tasks:
   - debug:
-      msg: ‘{{ dns_server }}’
+      msg: '{{ dns_server }}'
 ```
 
 Переменная `dns_server` будет доступна только в play запущенном для хоста web2:
