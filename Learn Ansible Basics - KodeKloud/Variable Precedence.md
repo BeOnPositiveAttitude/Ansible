@@ -23,11 +23,13 @@ dns_server=10.5.5.3
     dns_server: 10.5.5.5
   tasks:
   - nsupdate:
-      server: ‘{{ dns_server }}’
+      server: '{{ dns_server }}'
 ```
 
 И самый высокий приоритет имеет переменная Extra Vars заданная непосредственно при запуске playbook:
 
 `ansible-playbook playbook.yml –-extra-vars "dns_server=10.5.5.6"`
 
-Ссылка на [документацию](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable)
+Ссылка на [документацию](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable).
+
+В доке приоритет переменных указан от наименьшего к наибольшему.
