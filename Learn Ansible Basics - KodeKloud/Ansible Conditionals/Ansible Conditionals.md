@@ -1,3 +1,21 @@
+```yaml
+---
+- name: Install NGINX
+  hosts: all
+  tasks:
+  - name: Install NGINX on Debian
+    apt:
+      name: nginx
+      state: present
+    when: ansible_os_family == "Debian" and ansible_distribution_version == "16.04"
+
+  - name: Install NGINX on RedHat
+    yum:
+      name: nginx
+      state: present
+    when: ansible_os_family == "RedHat" or ansible_os_family == "SUSE"
+```
+
 Playbook сочетающий loop и conditionals:
 
 ```yaml
@@ -24,37 +42,37 @@ Playbook сочетающий loop и conditionals:
 Принцип работы loop. Playbook выше по сути "раскроется" в три таски:
 
 ```yaml
-- name: Install “{{ item.name }}” on Debian
+- name: Install "{{ item.name }}" on Debian
   vars:
     item:
       name: nginx
       required: True
   apt:
-    name: “{{ item.name }}”
+    name: "{{ item.name }}"
     state: present
   when: item.required == True
 ```
 
 ```yaml
-- name: Install “{{ item.name }}” on Debian
+- name: Install "{{ item.name }}" on Debian
   vars:
     item:
       name: mysql
       required: True
   apt:
-    name: “{{ item.name }}”
+    name: "{{ item.name }}"
     state: present
   when: item.required == True
 ```
 
 ```yaml
-- name: Install “{{ item.name }}” on Debian
+- name: Install "{{ item.name }}" on Debian
   vars:
     item:
       name: apache
       required: False
   apt:
-    name: “{{ item.name }}”
+    name: "{{ item.name }}"
     state: present
   when: item.required == True
 ```
