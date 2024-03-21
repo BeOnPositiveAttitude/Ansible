@@ -10,6 +10,18 @@
           uid: 1011
 ```
 
+Также содержимое `loop` можно записать в формате JSON:
+
+```yaml
+- name: Create users
+  hosts: localhost
+  tasks:
+    - user: name='{{ item.name }}' state=present uid='{{ item.uid }}'
+      loop:
+        - { name: joe, uid: 1010 }
+        - { name: george, uid: 1011 }
+```
+
 Playbook "раскроется" в две таски:
 
 ```yaml
@@ -38,9 +50,9 @@ Playbook "раскроется" в две таски:
   tasks:
     - debug: var=item
       with_file:
-        - “/etc/hosts”
-        - “/etc/resolv.conf”
-        - “/etc/ntp.conf”
+        - "/etc/hosts"
+        - "/etc/resolv.conf"
+        - "/etc/ntp.conf"
 ```
 
 Ключевое слово `with_url` подключается по списку к заданным url:
@@ -51,9 +63,9 @@ Playbook "раскроется" в две таски:
   tasks:
     - debug: var=item
       with_url:
-        - “https://site1.com/get-servers”
-        - “https://site2.com/get-servers”
-        - “https://site3.com/get-servers”
+        - "https://site1.com/get-servers"
+        - "https://site2.com/get-servers"
+        - "https://site3.com/get-servers"
 ```
 
 Ключевое слово `with_mongodb` подключается по списку к БД mongodb:
@@ -62,12 +74,12 @@ Playbook "раскроется" в две таски:
 - name: Check multiple mongodbs
   hosts: localhost
   tasks:
-    - debug: msg=“DB={{ item.database }} PID={{ item.pid}}”
+    - debug: msg="DB={{ item.database }} PID={{ item.pid}}"
       with_mongodb:
         - database: dev
-          connection_string: “mongodb://dev.mongo/”
+          connection_string: "mongodb://dev.mongo/"
         - database: prod
-          connection_string: “mongodb://prod.mongo/”
+          connection_string: "mongodb://prod.mongo/"
 ```
 
 Существует множество `with_*` директив:
