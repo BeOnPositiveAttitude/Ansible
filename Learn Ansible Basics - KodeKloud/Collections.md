@@ -30,6 +30,31 @@ collections:
 
 И затем установить их командой: `ansible-galaxy collection install -r requirements.yml`.
 
+Пример использования кастомной (несуществующей) коллекции в playbook-е из лабы:
+
+```yaml
+---
+- hosts: localhost
+  tasks:
+    - name: Install the networking_tools collection
+      ansible.builtin.ansible_galaxy_collection:
+        name: company_xyz.networking_tools
+        source: https://galaxy.ansible.com
+
+- hosts: switches
+  collections:
+    - company_xyz.networking_tools
+  tasks:
+    - name: Configure VLAN 10
+      configure_vlan:
+        vlan_id: 10
+        vlan_name: Admin_VLAN
+```
+
+Здесь в первом play мы ставим коллекцию себе на localhost с помощью модуля `ansible_galaxy_collection`.
+
+Во втором play мы указываем использование этой коллекции и с помощью модуля `configure_vlan` создаем необходимый VLAN.
+
 ### AWX
 
 Чтобы добавить какой-либо community модуль в наш playbook, необходимо в директории с проектом создать структуру `collections/requirements.yml` и в файле указать следующее:
