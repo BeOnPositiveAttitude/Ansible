@@ -112,5 +112,5 @@ web_servers
 americas
 ```
 
-Magic variable `inventory_hostname` покажет имя хоста из файла инвентаря. Выражение: `msg: {{ inventory_hostname }}` для хоста web1 вернет - `web1`. Это будет НЕ hostname или FQDN хоста.
+Magic variable `inventory_hostname` покажет имя хоста из файла инвентаря. Выражение: `msg: {{ inventory_hostname }}` для хоста web1 вернет - `web1`. Это будет НЕ hostname или FQDN хоста, а его alias.
 
