@@ -126,3 +126,14 @@ Lookup плагин - это по сути кастомный скрипт, ко
     - [ 'alice', 'bob' ]
     - [ 'clientdb', 'employeedb', 'providerdb' ]
 ```
+
+`with_nested` в Ansible выполняет декартово произведение двух или более списков. Т.е. он создает все возможные комбинации элементов из указанных списков.
+
+```yaml
+colors: [red, blue]
+sizes: [S, M, L]
+
+# Результат with_nested:
+red-S, red-M, red-L,
+blue-S,   blue-M,   blue-L
+```
